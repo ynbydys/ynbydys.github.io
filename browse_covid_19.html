@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no">
+    <title>DeepAAI - Browse COVID-19</title>
+    <link rel="icon" href="https://aai-test.github.io/deepaai.ico">
+    <link rel="stylesheet" href="https://aai-test.github.io/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="https://aai-test.github.io/css/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="https://aai-test.github.io/css/bootstrap-table/bootstrap-table.min.css">
+</head>
+
+<body class="d-flex flex-column h-100">
+<header class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://aai-test.github.io/">&nbsp;<i class="fa fa-cogs" aria-hidden="true"></i></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars07" aria-controls="navbars07" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars07">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://aai-test.github.io/">&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</a>
+                    </li>
+					<li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&nbsp;&nbsp;&nbsp;Predict&nbsp;&nbsp;&nbsp;</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown07">
+                            <a class="dropdown-item" href="https://aai-test.github.io/predict_hiv">HIV</a>
+                            <a class="dropdown-item" href="https://aai-test.github.io/predict_covid_19">COVID-19</a>
+                        </div>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="container flex-shrink-0">
+    <h4 class="pt-4">
+        &nbsp;<i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Browse COVID-19
+    </h4>
+	<div class="card shadow-sm mt-4">
+        <div class="card-header bg-dark text-white">
+            <i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<strong>COVID-19 list</strong>
+        </div>
+        <div class="card-body">
+            <div id="exptoolbar">
+                <select id="sel_exp" class="custom-select">
+                    <option selected="selected" value="selected">Export selected data</option>
+                    <option value="basic">Export data in this page</option>
+                    <option value="all">Export all data</option>
+                </select>
+            </div>
+            <div class="table-responsive">
+                <table id="table-l"></table>
+            </div>
+            <br>
+        </div>
+    </div>
+    <br>
+</main>
+
+<footer class="footer mt-auto py-2 bg-dark">
+    <div class="container">
+        <h5 class="text-white float-left m-1">DeepAAI</h5>
+        <div class="float-right">
+            <small class="d-block text-muted mt-2">&copy; 2021&nbsp;&nbsp;&nbsp;<i class="fa fa-bug" aria-hidden="true"></i>&nbsp;Version 1.0</small>
+        </div>
+    </div>
+</footer>
+
+<script src="https://aai-test.github.io/js/jquery/jquery.min.js"></script>
+<script src="https://aai-test.github.io/js/popper/popper.min.js"></script>
+<script src="https://aai-test.github.io/js/bootstrap/bootstrap.min.js"></script>
+<script src="https://aai-test.github.io/js/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="https://aai-test.github.io/js/tableExport/tableExport.min.js"></script>
+<script src="https://aai-test.github.io/js/bootstrap-table/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="https://aai-test.github.io/js/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.min.js"></script>
+
+<script>
+    $('#table-l').bootstrapTable({
+        url: 'https://aai-test.github.io/data/covid_19/covid_19.json',
+        contentType: 'application/x-www-form-urlencoded',
+        toolbar: '#exptoolbar',
+		toolbarAlign: 'left',
+		clickToSelect: true,
+        showExport: true,
+        exportDataType: 'selected',
+        cache: true,
+        striped: true,
+        pagination: true,
+        pageList: [20, 50, 100],
+        pageSize: 20,
+        pageNumber: 1,
+		search: true,
+        searchAlign: 'right',
+		advancedSearch: true,
+		idTable: 'advancedTable',
+        maintainMetaData: true,
+        sidePagination: 'client',
+        columns: [
+            {
+                field: 'state',
+                checkbox: true,
+                align: 'center',
+            }, {
+				field: 'id',
+                title: 'ID',
+                align: 'center',
+                sortable:true,
+            }, {
+                field: 'name',
+                title: 'Name',
+                sortable:true,
+            }, {
+                field: 'description',
+                title: 'Description',
+                sortable:true,
+            }, {
+                field: 'name',
+                title: '',
+                align: 'center',
+                formatter: function(value) {
+                        return '<a class="text-dark" href="https://aai-test.github.io/data/covid_19/' + value + '"><button type="button" class="btn btn-outline-dark">Detail</button></a>';
+                    },
+            }
+        ],
+        formatNoMatches: function(){
+            return "No result";
+        },
+    });
+    $("#sel_exp").change(function () {
+        $('#table-l').bootstrapTable('refreshOptions', {
+            exportDataType: $(this).val()
+        });
+    });
+</script>
+
+</body>
+</html>
